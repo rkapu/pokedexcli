@@ -17,9 +17,13 @@ type LocationAreasResponse struct {
 	} `json:"results"`
 }
 
-func (c *Client) GetNextLocationAreas() (LocationAreasResponse, error) {
-	endpoint := "/location-area"
-	fullUrl := baseURL + endpoint
+func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResponse, error) {
+	var fullUrl string
+	if pageUrl == nil {
+		fullUrl = baseURL + "/location-area"
+	} else {
+		fullUrl = *pageUrl
+	}
 
 	req, err := http.NewRequest("GET", fullUrl, nil)
 	if err != nil {
