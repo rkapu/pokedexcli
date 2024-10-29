@@ -5,4 +5,3 @@ const prefix = "pokedex > "
 func main() {
 	startREPL()
 }
-
