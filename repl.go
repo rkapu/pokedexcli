@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/rkapu/pokedexcli/internal/pokeapi"
 )
 
-func startREPL(cfg *Config) {
+func startREPL(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	availableCommands := getCommands()
 	for {
@@ -26,6 +28,7 @@ func startREPL(cfg *Config) {
 			fmt.Println("invalid command")
 			continue
 		}
+
 		err := command.callback(cfg)
 		if err != nil {
 			fmt.Println(err)
@@ -40,10 +43,16 @@ func cleanInput(str string) []string {
 	return words
 }
 
+type config struct {
+	pokeapiClient            pokeapi.Client
+	locationAreasNextUrl     *string
+	locationAreasPreviousUrl *string
+}
+
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*Config) error
+	callback    func(*config) error
 }
 
 func getCommands() map[string]cliCommand {

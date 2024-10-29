@@ -13,15 +13,13 @@ type LocationAreasResponse struct {
 	Previous *string `json:"previous"`
 	Results  []struct {
 		Name string `json:"name"`
-		URL  string `json:"url"`
+		Url  string `json:"url"`
 	} `json:"results"`
 }
 
 func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResponse, error) {
-	var fullUrl string
-	if pageUrl == nil {
-		fullUrl = baseURL + "/location-area"
-	} else {
+	fullUrl := baseURL + "/location-area"
+	if pageUrl != nil {
 		fullUrl = *pageUrl
 	}
 
@@ -34,6 +32,7 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResponse, erro
 	if err != nil {
 		return LocationAreasResponse{}, err
 	}
+	defer resp.Body.Close()
 
 	if resp.StatusCode > 399 {
 		return LocationAreasResponse{}, fmt.Errorf("bad status code: %v", resp.StatusCode)

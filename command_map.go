@@ -4,43 +4,42 @@ import (
 	"fmt"
 )
 
-func callbackMap(cfg *Config) error {
-	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.LocationAreasNextUrl)
+func callbackMap(cfg *config) error {
+	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.locationAreasNextUrl)
 
 	if err != nil {
 		return err
 	}
 
+	cfg.locationAreasNextUrl = resp.Next
+	cfg.locationAreasPreviousUrl = resp.Previous
+
 	for _, locationArea := range resp.Results {
 		fmt.Println(locationArea.Name)
 	}
-
 	fmt.Println()
-
-	cfg.LocationAreasNextUrl = resp.Next
-	cfg.LocationAreasPreviousUrl = resp.Previous
 
 	return nil
 }
 
-func callbackMapb(cfg *Config) error {
-	if cfg.LocationAreasPreviousUrl == nil {
+func callbackMapb(cfg *config) error {
+	if cfg.locationAreasPreviousUrl == nil {
 		return fmt.Errorf("Nowhere to go back")
 	}
-	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.LocationAreasPreviousUrl)
+
+	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.locationAreasPreviousUrl)
 
 	if err != nil {
 		return err
 	}
 
+	cfg.locationAreasNextUrl = resp.Next
+	cfg.locationAreasPreviousUrl = resp.Previous
+
 	for _, locationArea := range resp.Results {
 		fmt.Println(locationArea.Name)
 	}
-
 	fmt.Println()
-
-	cfg.LocationAreasNextUrl = resp.Next
-	cfg.LocationAreasPreviousUrl = resp.Previous
 
 	return nil
 }
