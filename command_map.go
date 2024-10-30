@@ -17,7 +17,6 @@ func callbackMap(cfg *config, args ...string) error {
 	for _, locationArea := range resp.Results {
 		fmt.Println(locationArea.Name)
 	}
-	fmt.Println()
 
 	return nil
 }
@@ -39,7 +38,6 @@ func callbackMapb(cfg *config, args ...string) error {
 	for _, locationArea := range resp.Results {
 		fmt.Println(locationArea.Name)
 	}
-	fmt.Println()
 
 	return nil
 }

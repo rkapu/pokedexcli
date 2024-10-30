@@ -51,6 +51,8 @@ func startREPL(cfg *config) {
 		if err != nil {
 			fmt.Println(err)
 		}
+
+		fmt.Println()
 	}
 }
 

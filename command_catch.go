@@ -25,13 +25,13 @@ func callbackCatch(cfg *config, args ...string) error {
 	rand := rand.Intn(maxRand)
 
 	if rand > catchThreshold {
-		fmt.Printf("%s escaped!\n\n", pokemonName)
+		fmt.Printf("%s escaped!\n", pokemonName)
 		return nil
 	}
 
 	cfg.caughtPokemon[pokemonName] = pokemon
 
-	fmt.Printf("%s was caught!\n\n", pokemonName)
+	fmt.Printf("%s was caught!\n", pokemonName)
 
 	return nil
 }
