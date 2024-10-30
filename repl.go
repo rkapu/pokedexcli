@@ -23,13 +23,18 @@ func startREPL(cfg *config) {
 		}
 
 		commandName := cleaned[0]
+		args := []string{}
+		if len(cleaned) > 1 {
+			args = cleaned[1:]
+		}
+
 		command, ok := availableCommands[commandName]
 		if !ok {
-			fmt.Println("invalid command")
+			fmt.Println("Invalid command")
 			continue
 		}
 
-		err := command.callback(cfg)
+		err := command.callback(cfg, args...)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -52,7 +57,7 @@ type config struct {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(cfg *config, args ...string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -74,8 +79,13 @@ func getCommands() map[string]cliCommand {
 		},
 		"mapb": {
 			name:        "mapb",
-			description: "Prints previous page of area locations",
+			description: "Lists previous page of area locations",
 			callback:    callbackMapb,
+		},
+		"explore": {
+			name:        "explore <location_name>",
+			description: "Explore a location",
+			callback:    callbackExplore,
 		},
 	}
 }
