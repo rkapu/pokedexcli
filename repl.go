@@ -9,6 +9,19 @@ import (
 	"github.com/rkapu/pokedexcli/internal/pokeapi"
 )
 
+type config struct {
+	pokeapiClient            pokeapi.Client
+	locationAreasNextUrl     *string
+	locationAreasPreviousUrl *string
+	caughtPokemon            map[string]pokeapi.PokemonResp
+}
+
+type cliCommand struct {
+	name        string
+	description string
+	callback    func(cfg *config, args ...string) error
+}
+
 func startREPL(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	availableCommands := getCommands()
@@ -46,19 +59,6 @@ func cleanInput(str string) []string {
 	trimmed := strings.TrimSpace(lowered)
 	words := strings.Fields(trimmed)
 	return words
-}
-
-type config struct {
-	pokeapiClient            pokeapi.Client
-	locationAreasNextUrl     *string
-	locationAreasPreviousUrl *string
-	caughtPokemon            map[string]pokeapi.PokemonResp
-}
-
-type cliCommand struct {
-	name        string
-	description string
-	callback    func(cfg *config, args ...string) error
 }
 
 func getCommands() map[string]cliCommand {

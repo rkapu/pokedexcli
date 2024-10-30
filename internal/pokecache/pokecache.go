@@ -5,9 +5,20 @@ import (
 	"time"
 )
 
+type Cache struct {
+	entries map[string]cacheEntry
+	mu      *sync.RWMutex
+}
+
+type cacheEntry struct {
+	createdAt time.Time
+	val       []byte
+}
+
 func NewCache(interval time.Duration) *Cache {
 	cache := Cache{
 		entries: map[string]cacheEntry{},
+		mu:      &sync.RWMutex{},
 	}
 	go cache.reapLoop(interval)
 
@@ -58,14 +69,4 @@ func (c *Cache) reap(interval time.Duration) {
 			delete(c.entries, k)
 		}
 	}
-}
-
-type Cache struct {
-	entries map[string]cacheEntry
-	mu      sync.RWMutex
-}
-
-type cacheEntry struct {
-	createdAt time.Time
-	val       []byte
 }
