@@ -52,6 +52,7 @@ type config struct {
 	pokeapiClient            pokeapi.Client
 	locationAreasNextUrl     *string
 	locationAreasPreviousUrl *string
+	caughtPokemon            map[string]pokeapi.PokemonResp
 }
 
 type cliCommand struct {

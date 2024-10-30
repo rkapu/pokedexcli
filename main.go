@@ -10,7 +10,10 @@ const prefix = "pokedex > "
 
 func main() {
 	cfg := &config{
-		pokeapiClient: pokeapi.NewClient(time.Hour),
+		pokeapiClient:            pokeapi.NewClient(time.Hour),
+		locationAreasNextUrl:     nil,
+		locationAreasPreviousUrl: nil,
+		caughtPokemon:            map[string]pokeapi.PokemonResp{},
 	}
 
 	startREPL(cfg)
